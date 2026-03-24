@@ -1,5 +1,8 @@
+Alt
+# apt-get install make gcc-c++ libxml++2-devel
+
 Debian GNU/Linux, Ubuntu
-# apt-get install make libxml++2.6-dev g++
+# apt-get install make g++ libxml++2.6-dev
 
 Fedora (34)
 # dnf install make libxml++-devel gcc-c++ findutils diffutils psmisc  #procps-ng
@@ -12,8 +15,10 @@ FreeBSD < 12
 # pkg_add -r libxml++26 gmake dmidecode?
 # (optional?) pkg_add -r pcre
 
+# Broken ATM
 Gentoo
 # emerge dev-cpp/libxmlpp dev-util/pkgconfig dmidecode?
 
+# Broken ATM
 Arch
 # pacman -S libxml++ dmidecode?

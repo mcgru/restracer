@@ -1,0 +1,24 @@
+fedora-build-release-n-test-networked:
+  image: fedora
+  stage: build
+  tags:
+    - docker
+  before_script:
+    - dnf install -y make gcc-c++ libxml++-devel findutils diffutils procps-ng psmisc
+  script:
+    - NPROC=$(nproc)
+    - echo "Using '$NPROC' processes to build source..."
+    - make release -j$NPROC
+    - DESTDIR=usr-local make install
+    - export PATH=$PATH:$(pwd)/usr-local/bin
+    - export    RT_ROOT=$(pwd)/usr-local
+    - cd regressions/features
+    - make networked-method
+  rules:
+    - if: '$CI_COMMIT_REF_NAME =~ $CI_DEFAULT_BRANCH'
+      when: always
+    - if: '$CI_COMMIT_REF_NAME =~ /^[0-9]\.[A-F]$/'
+      when: always
+    - if: '$CI_COMMIT_REF_NAME =~ /^[0-9]+\-/'
+      when: manual
+      allow_failure: true

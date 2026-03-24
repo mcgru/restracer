@@ -10,23 +10,30 @@ stages:
 
 include:
 # Debian
-  - local: .gitlab/ci/debian-with-deps.yml       # DinD, images with deps, moderate speed
-#  - local: .gitlab/ci/debian.yml                # DinD, no images with deps, slower speed
+#.  - local: .gitlab/ci/debian-with-deps.yml       # images with deps
+#  - local: .gitlab/ci/debian.yml
 
 # Fedora
-  - local: .gitlab/ci/fedora.yml       # DinD, no images with deps, slower speed
+#.  - local: .gitlab/ci/fedora.yml
+# Fedora (user-only install)
+  - local: .gitlab/ci/fedora-1-stage-user.yml
 
 # FreeBSD
-  - local: .gitlab/ci/freebsd-1-stage.yml       # Docker, fastest
-#  - local: .gitlab/ci/freebsd-3-stage.yml       # Docker, fastest
+#.  - local: .gitlab/ci/freebsd-1-stage.yml       # Docker@FreeBSD, fastest
+#  - local: .gitlab/ci/freebsd-3-stage.yml       # Docker@FreeBSD, fastest
 
 # AltLinux
-#  - local: .gitlab/ci/altlinux.yml       # DinD, no images with deps, slower speed, turned off
+#  - local: .gitlab/ci/altlinux.yml       # turned off
 # Fast Yandex mirror broken from time to time
 # Slow Vendor repository is slow and inconvenient so
 
-# Gentoo
-#  - local: .gitlab/ci/gentoo.yml       # DinD, incomplete
+# incomplete
+# Gentoo build and test
+#  - local: .gitlab/ci/gentoo-build-n-test.yml
 
+# Gentoo test
+#  - local: .gitlab/ci/gentoo-test.yml
+
+# incomplete
 # ArchLinux
-#  - local: .gitlab/ci/archlinux.yml    # DinD, incomplete
+#  - local: .gitlab/ci/archlinux.yml

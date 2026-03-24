@@ -1,6 +1,6 @@
 CIFLAGS?=-O0 -g -ggdb -Wno-pointer-to-int-cast -Wno-int-conversion
 CPFLAGS?=-O0 -g -ggdb -Wno-pointer-to-int-cast -Wno-int-conversion
-SED:=$(shell type gsed > /dev/null && echo gsed || echo sed)
+SED:=$(shell type gsed > /dev/null 2> /dev/null && echo gsed || echo sed)
 
 all: instrum-static-compiled instrum-dynamic-compiled preload-compiled
 

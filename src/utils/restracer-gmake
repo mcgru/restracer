@@ -12,7 +12,7 @@ TARGET=restracer
 #if [ "$LD" == "" ]; then LD=clang; fi
 
 ####
-type gmake > /dev/null && ACTUAL_MAKE=gmake || ACTUAL_MAKE=make
+type gmake > /dev/null 2> /dev/null && ACTUAL_MAKE=gmake || ACTUAL_MAKE=make
 # CASE 1
 # ACTUAL_MAKE=gmake
 # Looks like calling restracer-gmake for GNU Makefile target on system with

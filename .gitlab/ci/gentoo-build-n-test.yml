@@ -1,0 +1,20 @@
+gentoo-build-n-networked-test:
+  image: gentoo/stage3-amd64
+  stage: build
+  tags:
+    - docker
+  before_script:
+    - env
+    - mkdir -p /var/db/repos/
+    - cd       /var/db/repos/
+    - wget -O portage.tar.xz https://mirror.yandex.ru/gentoo-distfiles/snapshots/portage-20210724.tar.xz
+    - tar xf  portage.tar.xz
+    - mv      portage gentoo
+    - emerge --getbinpkg --sync
+    - emerge dev-cpp/libxmlpp dev-util/pkgconfig
+  script:
+    - NPROC=$(nproc)
+    - echo "Using '$NPROC' processes to build source..."
+    - make release -j$NPROC
+    - make install
+    - cd regressions/features && make networked-method

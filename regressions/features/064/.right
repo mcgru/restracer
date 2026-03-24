@@ -1,0 +1,1 @@
+Warning: deallocation of resource 0x by heap-memory:delete at main.cc:20 while allocated at main.cc:18 which never operated.

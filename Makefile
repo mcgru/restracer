@@ -49,6 +49,7 @@ clean:
 	$(MAKE) -C src/artlibgen/templates  clean
 
 install:
+	mkdir -p                       $(DESTDIR)/bin
 	cp src/artlibgen/src/artlibgen src/artrepgen/artrepgen \
 src/utils/rt-make src/utils/restracer-make \
 src/utils/rt-gmake src/utils/restracer-gmake \

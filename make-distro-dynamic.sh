@@ -13,33 +13,33 @@ case `uname -s` in
         OS=unknown;;
 esac
 
-art_dir=art-$1-$OS-`uname -m`
-art_dir=`echo $art_dir | sed 's/i[3-6]86/x86/g'`
-art_dir=`echo $art_dir | sed 's/mips64/mipsel/g'`
-cd src && scons -Q -j4 OS=$OS STATIC=0 RELEASE=1 && cd .. && mkdir $art_dir
+restracer_dir=restracer-$1-$OS-`uname -m`
+restracer_dir=`echo $restracer_dir | sed 's/i[3-6]86/x86/g'`
+#restracer_dir=`echo $restracer_dir | sed 's/mips64/mipsel/g'`
+cd src && scons -Q -j`nproc` OS=$OS STATIC=0 RELEASE=1 && cd .. && mkdir $restracer_dir
 
 if [ ! $? -eq 0 ]; then echo "Build failure." exit 1; fi
 
-cp src/artlibgen/src/artlibgen $art_dir &&
-cp src/artrepgen/artrepgen $art_dir &&
-strip $art_dir/* &&
-cp src/artlibgen/templates/posix-gcc-mt-file-lint.xml $art_dir &&
-cp regressions/features/003.c $art_dir/000.c &&
-tar cf $art_dir.tar $art_dir &&
-cp $art_dir.tar $art_dir.tar- &&
-gzip -9 $art_dir.tar &&
-#cp $art_dir.tar- $art_dir.tar &&
-#bzip2 -9 $art_dir.tar &&
-mv $art_dir.tar- $art_dir.tar &&
-7z a -mx=9 $art_dir.7z $art_dir &&
-rm $art_dir.tar && rm -rf $art_dir
+cp src/artlibgen/src/artlibgen $restracer_dir &&
+cp src/artrepgen/artrepgen $restracer_dir &&
+strip $restracer_dir/* &&
+cp src/artlibgen/templates/posix-gcc-mt-file-lint.xml $restracer_dir &&
+cp regressions/features/003/main.c $restracer_dir/003.c &&
+tar cf $restracer_dir.tar $restracer_dir &&
+cp $restracer_dir.tar $restracer_dir.tar- &&
+gzip -9 $restracer_dir.tar &&
+#cp $restracer_dir.tar- $restracer_dir.tar &&
+#bzip2 -9 $restracer_dir.tar &&
+mv $restracer_dir.tar- $restracer_dir.tar &&
+7z a -mx=9 $restracer_dir.7z $restracer_dir &&
+rm $restracer_dir.tar && rm -rf $restracer_dir
 
 if [ $OS = "linux" ]; then
-    md5sum $art_dir.tar.* $art_dir.7z > $art_dir.CHECKSUM.md5; fi
+    md5sum $restracer_dir.tar.* $restracer_dir.7z > $restracer_dir.CHECKSUM.md5; fi
 if [ $OS = "nexenta" ]; then
-    md5sum $art_dir.tar.* $art_dir.7z > $art_dir.CHECKSUM.md5; fi
+    md5sum $restracer_dir.tar.* $restracer_dir.7z > $restracer_dir.CHECKSUM.md5; fi
 if [ $OS = "freebsd" ]; then
-    md5 -r $art_dir.tar.* $art_dir.7z > $art_dir.CHECKSUM.md5;
-    sed 's/ /  /g' $art_dir.CHECKSUM.md5 > tmp;
-    mv tmp $art_dir.CHECKSUM.md5; # make it suitable for gnu md5sum -c
+    md5 -r $restracer_dir.tar.* $restracer_dir.7z > $restracer_dir.CHECKSUM.md5;
+    sed 's/ /  /g' $restracer_dir.CHECKSUM.md5 > tmp;
+    mv tmp $restracer_dir.CHECKSUM.md5; # make it suitable for gnu md5sum -c
 fi

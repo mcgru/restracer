@@ -1,0 +1,2 @@
+Warning: deallocation of handle 0x by heap-memory:delete[] at main.cc:12 as c++ delete[] while the handle allocated at main.cc:10 as c++ new operator. Operator types should be the same.
+Warning: deallocation of resource 0x by heap-memory:delete[] at main.cc:12 while allocated at main.cc:10 which never operated.

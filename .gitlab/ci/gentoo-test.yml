@@ -1,0 +1,19 @@
+variables:
+  GPG_KEY: B0414424
+  DISTRO_TARBALL_NAME: restracer-current-linux-amd64.tar.xz
+  DISTRO_TARBALL_ASC_NAME: $DISTRO_TARBALL_NAME.asc
+
+gentoo-networked-test:
+  image: gentoo/stage3-amd64
+  stage: test
+  tags:
+    - docker
+  before_script:
+    - env
+  script:
+    - gpg --keyserver hkp://pgp.mit.edu --recv-keys $GPG_KEY || gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys $GPG_KEY || gpg --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-keys $GPG_KEY
+    - wget http://skylark.tsu.ru/art/master/$DISTRO_TARBALL_NAME
+    - wget http://skylark.tsu.ru/art/master/$DISTRO_TARBALL_ASC_NAME
+    - gpg --verify                          $DISTRO_TARBALL_ASC_NAME
+    - tar xf                                $DISTRO_TARBALL_NAME -C /usr --skip-old-files
+    - cd regressions/features && make networked-method

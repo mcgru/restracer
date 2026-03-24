@@ -1,11 +1,11 @@
 #!/bin/sh
 
-SED=$(type gsed > /dev/null && echo gsed || echo sed)
+SED=$(type gsed > /dev/null 2> /dev/null && echo gsed || echo sed)
 
 if ! [ -z "$CI_JOB_ID" ]; then
     # We are inside GitLab CI, setting other variables
-    repGenStartupTime=16
-    repGenShutdownTime=16
+    repGenStartupTime=32
+    repGenShutdownTime=32
 else
     # Generic run on developer machine
     repGenStartupTime=4

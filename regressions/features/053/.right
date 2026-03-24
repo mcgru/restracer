@@ -1,0 +1,1 @@
+Error: resource leak; handle 0x from 'heap-memory' allocated at main.cc:10 not deallocated. Never operated. Bytes leaked: 20

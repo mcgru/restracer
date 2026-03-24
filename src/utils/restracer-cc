@@ -5,12 +5,15 @@ option_output=0
 compilation=0
 linking=0
 
+if [ -z "$RT_ROOT" ]; then
+    RT_ROOT=$RT_ROOT
+fi
 if [ -z "$RT_TEMPLATE" ]; then
     # default profile
     #RT_TEMPLATE=posix-gcc-mt-file-lint
     RT_TEMPLATE=posix-gcc-mt-netw-lint
 fi
-TEMPLATE_PATH=/usr/local/lib/restracer/templates/$RT_TEMPLATE
+TEMPLATE_PATH=$RT_ROOT/lib/restracer/templates/$RT_TEMPLATE
 
 if [ "$RT_DYNAMIC" = "1" ]; then
     LIB_EXT="dynamic/*.so"
