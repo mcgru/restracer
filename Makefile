@@ -62,6 +62,7 @@ src/utils/restracer $(DESTDIR)/bin
 #	$(MAKE) -C src/utils/restracer_preload      install # sample
 
 deb:
+	@command -v dpkg-buildpackage >/dev/null 2>&1 || { echo "dpkg-buildpackage not found. Please run: make deps-debian"; exit 1; }
 	cp -r distr-specific/debian distr-specific/debian.build && \
 	ln -sf distr-specific/debian.build debian && \
 	dpkg-buildpackage -us -uc -b; \
@@ -70,7 +71,7 @@ deb:
 	exit $$ret
 
 deps-debian:
-	sudo apt-get install -y make g++ libxml++2.6-dev
+	sudo apt-get install -y make g++ libxml++2.6-dev dpkg-dev debhelper
 
 deps-redhat:
 	sudo dnf install -y make libxml++-devel gcc-c++ findutils diffutils psmisc
