@@ -69,6 +69,24 @@ deb:
 	rm -rf distr-specific/debian.build debian; \
 	exit $$ret
 
+deps-debian:
+	sudo apt-get install -y make g++ libxml++2.6-dev
+
+deps-redhat:
+	sudo dnf install -y make libxml++-devel gcc-c++ findutils diffutils psmisc
+
+deps-gentoo:
+	sudo emerge dev-cpp/libxmlpp dev-util/pkgconfig
+
+deps-arch:
+	sudo pacman -S --noconfirm make gcc libxml++
+
+deps-freebsd:
+	sudo pkg install -y libxml++ gmake gsed pkgconf
+
+deps-alt:
+	sudo apt-get install -y make gcc-c++ libxml++2-devel
+
 deinstall: uninstall
 
 uninstall:
