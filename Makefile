@@ -67,6 +67,7 @@ deb:
 	ln -sf distr-specific/debian.build debian && \
 	dpkg-buildpackage -us -uc -b; \
 	ret=$$?; \
+	mv -f ../restracer_*.deb distr-specific/debian/ 2>/dev/null; \
 	rm -rf distr-specific/debian.build debian; \
 	exit $$ret
 
