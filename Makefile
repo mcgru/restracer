@@ -71,7 +71,7 @@ deb:
 	exit $$ret
 
 deps-debian:
-	sudo apt-get install -y make g++ libxml++2.6-dev dpkg-dev debhelper
+	sudo apt-get install -y build-essential libxml++2.6-dev dpkg-dev debhelper
 
 deps-redhat:
 	sudo dnf install -y make libxml++-devel gcc-c++ findutils diffutils psmisc
