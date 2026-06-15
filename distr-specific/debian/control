@@ -1,0 +1,18 @@
+Source: restracer
+Section: devel
+Priority: optional
+Maintainer: larkvirtual <larkvirtual@github.com>
+Build-Depends: debhelper-compat (= 13), make, g++, libxml++2.6-dev
+Standards-Version: 4.6.2
+Homepage: https://github.com/larkvirtual/restracer
+Rules-Requires-Root: no
+
+Package: restracer
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libxml++2.6-2v5
+Description: resource tracing, debugging and profiling tool
+ Cross-platform method to trace software errors in runtime during
+ resource manipulation. Uses XML to describe abstract resources and
+ their functions, allowing new resource classes to be added without
+ changing the analyzer core. Detected errors often have an influence
+ on security, safety, robustness and resource optimal usage.

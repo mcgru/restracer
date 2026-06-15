@@ -61,6 +61,14 @@ src/utils/restracer $(DESTDIR)/bin
 #	$(MAKE) -C src/utils/restracer_fullpather   install # attic
 #	$(MAKE) -C src/utils/restracer_preload      install # sample
 
+deb:
+	cp -r distr-specific/debian distr-specific/debian.build && \
+	ln -sf distr-specific/debian.build debian && \
+	dpkg-buildpackage -us -uc -b; \
+	ret=$$?; \
+	rm -rf distr-specific/debian.build debian; \
+	exit $$ret
+
 deinstall: uninstall
 
 uninstall:

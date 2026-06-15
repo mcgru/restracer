@@ -1,0 +1,12 @@
+#!/usr/bin/make -f
+
+export DESTDIR=$(CURDIR)/debian/restracer/usr
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	make release -j$(shell nproc)
+
+override_dh_auto_install:
+	make install
