@@ -1,0 +1,14 @@
+services:
+  restracer-web:
+    image: gitverse.ru/virtual.lark/restracer-web:26.004
+    container_name: restracer-web-container
+    ports:
+      - "80:8000"
+      - "12345:12345"
+    restart: unless-stopped
+    networks:
+      - restracer-network
+
+networks:
+  restracer-network:
+    driver: bridge
