@@ -57,7 +57,7 @@ ARG LIBXML2_VER=2.9.14
 RUN wget -q --timeout=30 --tries=3 https://download.gnome.org/sources/libxml2/2.9/libxml2-${LIBXML2_VER}.tar.xz && \
     tar xf libxml2-${LIBXML2_VER}.tar.xz && cd libxml2-${LIBXML2_VER} && \
     ./configure --prefix=${PREFIX} --disable-shared --enable-static \
-        --without-python --without-lzma --without-http --without-ftp && \
+        --without-python --without-lzma --without-http --without-ftp --without-zlib && \
     make -j$(nproc) && make install && \
     cd .. && rm -rf libxml2-${LIBXML2_VER}*
 
