@@ -25,7 +25,8 @@ make -C src/artrepgen \
     LDFLAGS="-static -L../libs/libtplreader -L../libs/liblinefetch \
 -ltplreader -llinefetch $(pkg-config --static --libs libxml++-2.6)"
 
-make -C src/artlibgen/templates
+# skip template generation (artlibgen crashes with static glib init)
+# templates are pre-generated or can be built with host artlibgen
 
 echo "=== Static build complete ==="
 file src/artlibgen/src/artlibgen src/artrepgen/artrepgen
