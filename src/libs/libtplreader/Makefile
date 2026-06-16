@@ -1,6 +1,6 @@
 CXX ?= c++
 CXXFLAGS+=$(shell pkg-config --cflags libxml++-2.6)
-LDFLAGS=
+LDFLAGS+=
 SOURCES=$(wildcard *.cc)
 OBJECTS=$(SOURCES:.cc=.o)
 TARGET=libtplreader.a

@@ -63,19 +63,55 @@ src/utils/restracer $(DESTDIR)/bin
 
 deb:
 	@command -v dpkg-buildpackage >/dev/null 2>&1 || { echo "dpkg-buildpackage not found. Please run: make deps-debian"; exit 1; }
-	cp -r distr-specific/debian distr-specific/debian.build && \
-	ln -sf distr-specific/debian.build debian && \
+
+static:
+	@mkdir -p distr-specific/static
+	docker build -t restracer-static -f docker/static-build/Dockerfile docker/static-build
+	docker run --rm -v "$(CURDIR)":/build -w /build restracer-static bash docker/static-build/build.sh
+	cp src/artlibgen/src/artlibgen src/artrepgen/artrepgen \
+		src/utils/rt-make src/utils/restracer-make \
+		src/utils/rt-gmake src/utils/restracer-gmake \
+		src/utils/restracer-gcc src/utils/restracer-g++ \
+		src/utils/restracer-cc src/utils/restracer-c++ src/utils/restracer-ld \
+		src/utils/restracer distr-specific/static/
+	cp -r src/artlibgen/templates distr-specific/static/
+
+static-deb: static
+	@command -v dpkg-buildpackage >/dev/null 2>&1 || { echo "dpkg-buildpackage not found. Please run: make deps-debian"; exit 1; }
+	cp -r distr-specific/debian distr-specific/debian.build
+	sed -i '/libxml++2.6-2v5/d' distr-specific/debian.build/control
+	mkdir -p distr-specific/debian.build/restracer/usr/bin distr-specific/debian.build/restracer/usr/lib/restracer
+	cp distr-specific/static/artlibgen distr-specific/static/artrepgen \
+		distr-specific/static/rt-make distr-specific/static/restracer-make \
+		distr-specific/static/rt-gmake distr-specific/static/restracer-gmake \
+		distr-specific/static/restracer-gcc distr-specific/static/restracer-g++ \
+		distr-specific/static/restracer-cc distr-specific/static/restracer-c++ \
+		distr-specific/static/restracer-ld distr-specific/static/restracer \
+		distr-specific/debian.build/restracer/usr/bin/
+	cp -r distr-specific/static/templates distr-specific/debian.build/restracer/usr/lib/restracer/
+	ln -sf distr-specific/debian.build debian
 	dpkg-buildpackage -us -uc -b; \
 	ret=$$?; \
 	mv -f ../restracer_*.deb distr-specific/debian/ 2>/dev/null; \
 	rm -rf distr-specific/debian.build debian; \
 	exit $$ret
 
+static-rpm: static
+	@command -v rpmbuild >/dev/null 2>&1 || { echo "rpmbuild not found. Please run: make deps-redhat"; exit 1; }
+	mkdir -p distr-specific/redhat/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
+	cp distr-specific/static/* distr-specific/redhat/rpmbuild/SOURCES/
+	cp -r distr-specific/static/templates distr-specific/redhat/rpmbuild/SOURCES/
+	cp distr-specific/redhat/restracer.spec distr-specific/redhat/rpmbuild/SPECS/
+	rpmbuild -bb --define "_topdir $(CURDIR)/distr-specific/redhat/rpmbuild" \
+		distr-specific/redhat/rpmbuild/SPECS/restracer.spec
+	mv distr-specific/redhat/rpmbuild/RPMS/*/*.rpm distr-specific/redhat/ 2>/dev/null || true
+	rm -rf distr-specific/redhat/rpmbuild
+
 deps-debian:
 	sudo apt-get install -y build-essential libxml++2.6-dev dpkg-dev debhelper
 
 deps-redhat:
-	sudo dnf install -y make libxml++-devel gcc-c++ findutils diffutils psmisc
+	sudo dnf install -y make libxml++-devel gcc-c++ findutils diffutils psmisc rpm-build
 
 deps-gentoo:
 	sudo emerge dev-cpp/libxmlpp dev-util/pkgconfig

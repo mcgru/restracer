@@ -16,11 +16,18 @@ SRC_URI="https://github.com/${USER}/${PROJECT}/archive/v${PV}.tar.gz -> ${P}.tar
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64 ~ppc ~x86"
+IUSE="static"
 
 DEPEND="
-	dev-cpp/libxmlpp
+	dev-cpp/libxmlpp[static-libs(+)?]
 	dev-util/pkgconfig
 	demidecode? ( sys-apps/dmidecode )
+	static? (
+		dev-cpp/glibmm[static-libs(+)]
+		dev-libs/libsigc++[static-libs(+)]
+		dev-libs/glib[static-libs(+)]
+		dev-libs/libxml2[static-libs(+)]
+	)
 "
 RDEPEND="${DEPEND}"
 
@@ -29,7 +36,9 @@ src_prepare() {
 }
 
 src_compile() {
-	emake release CC="$(tc-getCC)" CXX="$(tc-getCXX)"
+	local myldflags=""
+	use static && myldflags="LDFLAGS=-static"
+	emake release CC="$(tc-getCC)" CXX="$(tc-getCXX)" ${myldflags}
 }
 
 src_install() {
