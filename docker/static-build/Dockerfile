@@ -6,7 +6,8 @@ ENV CFLAGS=-fPIC
 ENV CXXFLAGS=-fPIC
 
 RUN apt update && apt install -y --no-install-recommends \
-    g++ make wget xz-utils pkg-config python3 meson ninja-build ca-certificates && \
+    g++ make wget xz-utils pkg-config python3 meson ninja-build ca-certificates \
+    autoconf automake libtool && \
     rm -rf /var/lib/apt/lists/*
 
 # ---- zlib ----
@@ -38,6 +39,7 @@ RUN wget -q --timeout=30 --tries=3 https://download.gnome.org/sources/glib/2.66/
 ARG LIBSIGCPP_VER=2.10.8
 RUN wget -q --timeout=30 --tries=3 https://download.gnome.org/sources/libsigc++/2.10/libsigc++-${LIBSIGCPP_VER}.tar.xz && \
     tar xf libsigc++-${LIBSIGCPP_VER}.tar.xz && cd libsigc++-${LIBSIGCPP_VER} && \
+    autoreconf -i && \
     ./configure --prefix=${PREFIX} --disable-shared --enable-static && \
     make -j$(nproc) && make install && \
     cd .. && rm -rf libsigc++-${LIBSIGCPP_VER}*
