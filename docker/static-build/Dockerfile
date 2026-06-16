@@ -66,8 +66,8 @@ ARG LIBXMLPP_VER=2.42.2
 RUN wget -q --timeout=30 --tries=3 https://download.gnome.org/sources/libxml++/2.42/libxml++-${LIBXMLPP_VER}.tar.xz && \
     tar xf libxml++-${LIBXMLPP_VER}.tar.xz && cd libxml++-${LIBXMLPP_VER} && \
     PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig \
-    ./configure --prefix=${PREFIX} --disable-shared --enable-static && \
-    make -j$(nproc) && make install && \
+    meson setup _build --prefix=${PREFIX} --default-library=static && \
+    ninja -C _build && ninja -C _build install && \
     cd .. && rm -rf libxml++-${LIBXMLPP_VER}*
 
 ENV PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig
