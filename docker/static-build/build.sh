@@ -16,10 +16,14 @@ make -C src/libs clean
 make -C src/libs
 
 make -C src/artlibgen/src clean
-make -C src/artlibgen/src LDFLAGS="-static"
+make -C src/artlibgen/src \
+    LDFLAGS="-static -L../../libs/libtplreader -L../../libs/liblinefetch \
+-ltplreader -llinefetch $(pkg-config --static --libs libxml++-2.6)"
 
 make -C src/artrepgen clean
-make -C src/artrepgen LDFLAGS="-static"
+make -C src/artrepgen \
+    LDFLAGS="-static -L../libs/libtplreader -L../libs/liblinefetch \
+-ltplreader -llinefetch $(pkg-config --static --libs libxml++-2.6)"
 
 make -C src/artlibgen/templates
 
