@@ -16,14 +16,10 @@ make -C src/libs clean
 make -C src/libs
 
 make -C src/artlibgen/src clean
-make -C src/artlibgen/src \
-    CXXFLAGS="-pipe -O3 -fomit-frame-pointer" \
-    LDFLAGS="-static"
+make -C src/artlibgen/src LDFLAGS="-static"
 
 make -C src/artrepgen clean
-make -C src/artrepgen \
-    CXXFLAGS="-pipe -O3 -fomit-frame-pointer" \
-    LDFLAGS="-static"
+make -C src/artrepgen LDFLAGS="-static"
 
 make -C src/artlibgen/templates
 
