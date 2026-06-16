@@ -12,12 +12,15 @@ export PATH=/tmp/pkgwrap:$PATH
 export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/local/lib64/pkgconfig
 
 # Build all internal libs statically, then the main tools
+make -C src/libs clean
 make -C src/libs
 
+make -C src/artlibgen/src clean
 make -C src/artlibgen/src \
     CXXFLAGS="-pipe -O3 -fomit-frame-pointer" \
     LDFLAGS="-static"
 
+make -C src/artrepgen clean
 make -C src/artrepgen \
     CXXFLAGS="-pipe -O3 -fomit-frame-pointer" \
     LDFLAGS="-static"
