@@ -2,6 +2,8 @@ FROM debian:12-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PREFIX=/usr/local
+ENV CFLAGS=-fPIC
+ENV CXXFLAGS=-fPIC
 
 RUN apt update && apt install -y --no-install-recommends \
     g++ make wget xz-utils pkg-config python3 meson ninja-build ca-certificates && \
