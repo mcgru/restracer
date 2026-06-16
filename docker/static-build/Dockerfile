@@ -36,12 +36,11 @@ RUN wget -q --timeout=30 --tries=3 https://download.gnome.org/sources/glib/2.66/
     cd .. && rm -rf glib-${GLIB_VER}*
 
 # ---- libsigc++ ----
-ARG LIBSIGCPP_VER=2.10.8
-RUN wget -q --timeout=30 --tries=3 https://download.gnome.org/sources/libsigc++/2.10/libsigc++-${LIBSIGCPP_VER}.tar.xz && \
+ARG LIBSIGCPP_VER=2.12.1
+RUN wget -q --timeout=30 --tries=3 https://download.gnome.org/sources/libsigc++/2.12/libsigc++-${LIBSIGCPP_VER}.tar.xz && \
     tar xf libsigc++-${LIBSIGCPP_VER}.tar.xz && cd libsigc++-${LIBSIGCPP_VER} && \
-    autoreconf -i && \
-    ./configure --prefix=${PREFIX} --disable-shared --enable-static && \
-    make -j$(nproc) && make install && \
+    meson setup _build --prefix=${PREFIX} --default-library=static && \
+    ninja -C _build && ninja -C _build install && \
     cd .. && rm -rf libsigc++-${LIBSIGCPP_VER}*
 
 # ---- glibmm ----
