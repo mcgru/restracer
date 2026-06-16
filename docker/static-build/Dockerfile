@@ -28,7 +28,7 @@ ARG GLIB_VER=2.66.8
 RUN wget -q --timeout=30 --tries=3 https://download.gnome.org/sources/glib/2.66/glib-${GLIB_VER}.tar.xz && \
     tar xf glib-${GLIB_VER}.tar.xz && cd glib-${GLIB_VER} && \
     meson setup _build --prefix=${PREFIX} --default-library=static \
-        -Dtests=false -Dnls=disabled -Dlibmount=disabled && \
+        -Dselinux=disabled -Dlibmount=disabled --auto-features=disabled && \
     ninja -C _build && ninja -C _build install && \
     cd .. && rm -rf glib-${GLIB_VER}*
 
