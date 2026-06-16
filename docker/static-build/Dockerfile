@@ -11,7 +11,7 @@ RUN apt update && apt install -y --no-install-recommends \
 ARG ZLIB_VER=1.2.13
 RUN wget -q --timeout=30 --tries=3 https://github.com/madler/zlib/archive/refs/tags/v${ZLIB_VER}.tar.gz -O zlib-${ZLIB_VER}.tar.gz && \
     tar xf zlib-${ZLIB_VER}.tar.gz && cd zlib-${ZLIB_VER} && \
-    ./configure --static --prefix=${PREFIX} && \
+    CFLAGS="-fPIC -O3" ./configure --static --prefix=${PREFIX} && \
     make -j$(nproc) && make install && \
     cd .. && rm -rf zlib-${ZLIB_VER}*
 
