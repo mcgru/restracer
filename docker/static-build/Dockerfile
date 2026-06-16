@@ -48,8 +48,8 @@ ARG GLIBMM_VER=2.66.5
 RUN wget -q --timeout=30 --tries=3 https://download.gnome.org/sources/glibmm/2.66/glibmm-${GLIBMM_VER}.tar.xz && \
     tar xf glibmm-${GLIBMM_VER}.tar.xz && cd glibmm-${GLIBMM_VER} && \
     PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig \
-    ./configure --prefix=${PREFIX} --disable-shared --enable-static && \
-    make -j$(nproc) && make install && \
+    meson setup _build --prefix=${PREFIX} --default-library=static && \
+    ninja -C _build && ninja -C _build install && \
     cd .. && rm -rf glibmm-${GLIBMM_VER}*
 
 # ---- libxml2 ----
