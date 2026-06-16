@@ -68,6 +68,7 @@ static:
 	@mkdir -p distr-specific/static
 	docker build -t restracer-static -f docker/static-build/Dockerfile docker/static-build
 	docker run --rm -v "$(CURDIR)":/build -w /build restracer-static bash docker/static-build/build.sh
+	rm -f src/artlibgen/templates/core
 	cp src/artlibgen/src/artlibgen src/artrepgen/artrepgen \
 		src/utils/rt-make src/utils/restracer-make \
 		src/utils/rt-gmake src/utils/restracer-gmake \
